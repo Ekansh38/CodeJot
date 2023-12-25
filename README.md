@@ -18,6 +18,8 @@ wanted to practice my web development skills and I wanted
 my data to be safe even though it probably safe on other
 sites too.
 
+(just excuses)
+
 ## Contribution
 
 Do whatever you like and if it helps then Ill pull it in!
