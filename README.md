@@ -1,1 +1,4 @@
 # CodeJot
+
+## What is it?
+
