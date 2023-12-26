@@ -1,14 +1,23 @@
 {% extends 'notes/base.html' %}
 
 {% block title %}
-Login
+    Login
 {% endblock %}
 
 {% block body %}
-<form action="{% url 'login' %}" method="post">
-    <input type="text" name="username">
-    <input type="password" name="password">
-    <input type="submit">
-</form>
+    <h1>Login</h1>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" name="username">
+        <label for="password">Password:</label>
+        <input type="password" name="password">
+        <input type="submit">
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <p>Don't have an account? <a href="{% url 'signup' %}">signup.</a></p>
 
 {% endblock %}
