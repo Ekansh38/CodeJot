@@ -18,7 +18,7 @@ def index(request):
     # else
     return HttpResponseRedirect(reverse("login"))
 
-def login(request):
+def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -68,7 +68,7 @@ def signup(request):
     return render(request, "notes/signup.html")
 
 
-def logout(request):
+def logout_view(request):
     logout(request)
 
 def add_note(request):
