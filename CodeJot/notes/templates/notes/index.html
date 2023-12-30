@@ -1,13 +1,27 @@
 {% extends 'notes/base.html' %}
+{% load static %}
+
+{% block head %}
+ <script src="{% static "notes/index.js" %}"></script>
+{% endblock head %}
 
 {% block body %}
 
 <h2>Logged in as {{request.user.username}} </h2>
+
+
 
 <ul>
     {% for note in notes %}
     <li>{{ note.note_data }}</li>
     {% endfor %}
 </ul>
+
+
+<form>
+    {% csrf_token %}
+    <input id="data" type="text" name="note_data">
+    <input type="submit" value="Add Note">
+</form>
 
 {% endblock %}

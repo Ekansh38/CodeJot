@@ -1,12 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
-from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Note
-
-
 
 
 def index(request):
@@ -19,13 +18,13 @@ def index(request):
     # else
     return HttpResponseRedirect(reverse("login"))
 
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-        
         user = authenticate(request, username=username, password=password)
-        
+
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
@@ -33,9 +32,9 @@ def login_view(request):
             return render(request, "notes/login.html", {
                 "message": "Invalid username and/or password."
             })
-    
+
     # else
-        
+
     return render(request, "notes/login.html")
 
 
@@ -46,7 +45,7 @@ def signup(request):
         email = request.POST["email"]
         password = request.POST["password"]
         password_confirm = request.POST["password_confirm"]
-        
+
         if password != password_confirm:
             return render(request, "notes/signup.html", {
                 "message": "Passwords must match."
@@ -57,14 +56,13 @@ def signup(request):
             return render(request, "notes/signup.html", {
                 "message": "Username already taken."
                 })
-            
+
         user = User.objects.create_user(username, email, password)
         user.save()
         login(request, user)
-        
+
         return HttpResponseRedirect(reverse("index"))
 
-        
     # else
     return render(request, "notes/signup.html")
 
@@ -72,5 +70,14 @@ def signup(request):
 def logout_view(request):
     logout(request)
 
+
+@csrf_exempt
 def add_note(request):
-    pass
+    print('enterd here')
+    if request.method != "POST":
+        return HttpResponseRedirect(reverse("index"))
+    data = json.loads(request.body)
+    print(data)
+    note = Note(note_data=data, notes_user=request.user)
+    note.save()
+    return HttpResponse(status=204)
