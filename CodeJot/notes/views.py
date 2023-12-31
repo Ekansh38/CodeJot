@@ -20,6 +20,9 @@ def index(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("main"))
+
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -39,6 +42,8 @@ def login_view(request):
 
 
 def signup(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("main"))
     if request.method == "POST":
         print('posted')
         username = request.POST["username"]
@@ -69,15 +74,20 @@ def signup(request):
 
 def logout_view(request):
     logout(request)
+    return HttpResponseRedirect(reverse("main"))
 
 
 @csrf_exempt
 def add_note(request):
     print('enterd here')
     if request.method != "POST":
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("main"))
     data = json.loads(request.body)
     print(data)
     note = Note(note_data=data, notes_user=request.user)
     note.save()
     return HttpResponse(status=204)
+
+
+def main(request):
+    return render(request, "notes/main.html")

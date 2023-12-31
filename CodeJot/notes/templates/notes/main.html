@@ -1,0 +1,22 @@
+{% extends 'notes/base.html' %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+
+<a href="{% url 'index' %}"><button>Notes</button></a>
+<a href="{% url 'logout' %}">><button>Logout</button></a>
+
+{% else %}
+
+<a href="{% url 'login' %}"><button>Login</button></a>
+<a href="{% url 'signup' %}"><button>Sign Up</button></a>
+
+
+
+{% endif %}
+
+
+
+{% endblock %}
+
