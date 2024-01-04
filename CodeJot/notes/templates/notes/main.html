@@ -1,22 +1,63 @@
 {% extends 'notes/base.html' %}
+{% load static %}
+
+{% block head %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    var audio = document.getElementById('sound');
+
+    function playClick(event) {
+        // Prevent the default action of the button
+        event.preventDefault(); 
+
+        // Find the parent anchor element and get its href attribute
+        var href = event.currentTarget.closest('a').getAttribute('href');
+
+        audio.play();
+
+        // Redirect after a short delay to allow the sound to play
+        setTimeout(() => {
+            window.location.href = href;
+        }, 400); // Adjust the delay as needed
+    }
+
+    // Attach the event listener to each button
+    document.querySelectorAll('.main-button').forEach(button => {
+        button.addEventListener('click', playClick);
+    });
+});
+
+</script>
+
+{% endblock %}
 
 {% block body %}
 
+<audio id="sound" src="{% static 'notes/mouse-click-153941.mp3' %}"></audio>
+
+<div id="main-body">
+
 {% if user.is_authenticated %}
 
-<a href="{% url 'index' %}"><button>Notes</button></a>
-<a href="{% url 'logout' %}">><button>Logout</button></a>
+
+<div class="main-div">
+<a href="{% url 'index' %}"><button class="main login main-button"><span class="text">Notes</span></button></a>
+<a href="{% url 'logout' %}"><button class="main login main-button"><span class="text">Logout</span></button></a>
+</div>
 
 {% else %}
 
-<a href="{% url 'login' %}"><button>Login</button></a>
-<a href="{% url 'signup' %}"><button>Sign Up</button></a>
+<div class="main-div">
+<a href="{% url 'login' %}"><button class="main login main-button"><span class="text">Login</span></button></a>
+<a href="{% url 'signup' %}"><button class="main login main-button"><span class="text">Signup</span></button></a>
+</div>
 
 
 
 {% endif %}
 
-
+</div>
 
 {% endblock %}
 

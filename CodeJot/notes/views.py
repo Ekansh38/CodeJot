@@ -79,9 +79,9 @@ def logout_view(request):
 
 @csrf_exempt
 def add_note(request):
-    print('enterd here')
-    if request.method != "POST":
+    if request.method != "POST" or request.user.is_authenticated is not True:
         return HttpResponseRedirect(reverse("main"))
+
     data = json.loads(request.body)
     print(data)
     note = Note(note_data=data, notes_user=request.user)
