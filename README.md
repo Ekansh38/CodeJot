@@ -1,5 +1,11 @@
 # CodeJot
 
+## Installation
+1. Install python3 on your machine
+2. pip install django or python3 -m pip install django
+3. navigate to the CodeJot/CodeJot directory on the command line
+4. run: python3 manage.py runserver and it should work!
+
 ## What is it?
 
 CodeJot is a platform for programmers (and everyone)
